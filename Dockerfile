@@ -24,4 +24,6 @@ COPY Makefile Makefile
 
 RUN apt-get install -y g++ pkg-config
 
+RUN apt-get install libopencv-dev
+
 RUN make
