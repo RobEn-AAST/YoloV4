@@ -10,7 +10,7 @@ RUN apt-get install -y git make dpkg python3-opencv
 
 RUN apt-get install curl
 
-RUN curl –O http://www.mediafire.com/file/lxuvgld7yic0ox7/cudnn.deb
+COPY cudnn.deb cudnn.deb
 
 RUN yes | dpkg -i cudnn.deb
 
