@@ -8,6 +8,8 @@ RUN apt-get upgrade -y
 
 RUN apt-get install -y git make dpkg python3-opencv
 
+RUN apt-get install wget
+
 RUN wget -O cuddan.deb http://www.mediafire.com/file/lxuvgld7yic0ox7/cudnn.deb
 
 RUN yes | dpkg -i cuddan.deb
