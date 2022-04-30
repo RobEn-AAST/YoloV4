@@ -12,7 +12,7 @@ COPY cudnn.deb cudnn.deb
 
 RUN yes | dpkg -i cudnn.deb
 
-RUN rm cuddan.deb
+RUN rm cudnn.deb
 
 RUN git clone https://github.com/AlexeyAB/darknet.git
 
