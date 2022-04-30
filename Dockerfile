@@ -22,8 +22,6 @@ RUN rm Makefile
 
 COPY Makefile Makefile
 
-RUN apt-get install -y 
-
 RUN apt-get install -y libopencv-dev
 
 RUN make
