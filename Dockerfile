@@ -8,8 +8,6 @@ RUN apt-get upgrade -y
 
 RUN apt-get install -y git make dpkg python3-opencv
 
-RUN apt-get install curl
-
 COPY cudnn.deb cudnn.deb
 
 RUN yes | dpkg -i cudnn.deb
