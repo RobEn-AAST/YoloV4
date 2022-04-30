@@ -22,4 +22,6 @@ RUN rm Makefile
 
 COPY Makefile Makefile
 
+RUN apt-get install -y g++ pkg-config
+
 RUN make
