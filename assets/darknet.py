@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
 
 from ctypes import *
-import math
-import random
 import os
-import cv2
-import time
-
+from cv2 import cv2
 
 class BOX(Structure):
     _fields_ = [("x", c_float),
@@ -67,16 +63,6 @@ def bbox2points(bbox):
     return xmin, ymin, xmax, ymax
 
 
-# def class_colors(names):
-#     """
-#     Create a dict with one random BGR color for each
-#     class name
-#     """
-#     return {name: (
-#         random.randint(0, 255),
-#         random.randint(0, 255),
-#         random.randint(0, 255)) for name in names}
-
 
 def load_network(config_file, data_file, weights, batch_size=1):
     """
@@ -111,7 +97,6 @@ def print_detections(detections, coordinates=False):
 
 
 def draw_boxes(detections, image, colors):
-    import cv2
     for label, confidence, bbox in detections:
         left, top, right, bottom = bbox2points(bbox)
         cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
@@ -263,10 +248,6 @@ network_predict_batch.argtypes = [c_void_p, IMAGE, c_int, c_int, c_int,
                                    c_float, c_float, POINTER(c_int), c_int, c_int]
 network_predict_batch.restype = POINTER(DETNUMPAIR)
 
-
-# ax = load_network('cfg/yolov4-tiny-3l-test.cfg', 'data/obj.data', 'backup/yolov4-tiny-3l_last.weights')
-# detect_image(ax, ['BR', 'RR'], "new/a.jpg".encode('utf-8'))
-
 network, class_names, class_colors_v = 0, 0, {'Dead Fish':(0,0,255)}
 width, height, darknet_image = 0, 0, 0
 
@@ -321,41 +302,24 @@ def one_detection_to_points(detections):
 
 def detectShape(frame):
     imageboxed, detection = predict_rFullImage(frame)
-    
     if detection.__len__()==0:
-        return "", frame, empty, False
+        return frame, False
+    else:
+        return imageboxed, True
 
-    label = []
-    image = []
-    crop = []
-
-    for det in detection:
-        label.append(det[0])
-        fixed = cv2.cvtColor(imageboxed, cv2.COLOR_RGB2BGR)
-        image.append(fixed)
-        crop.append(get_cropped_image(fixed, det))
-    return label, image, crop, True
 
 
 if __name__ == "__main__":
     load_model()
-    out1 = cv2.VideoWriter('/darknet/assets/output1.mp4', -1, 20.0, (640,480))
-    out2 = cv2.VideoWriter('/darknet/assets/output2.mp4', -1, 20.0, (640,480))
+    out = cv2.VideoWriter('/darknet/assets/output.mp4', -1, 20.0, (640,480))
     vid = cv2.VideoCapture('/darknet/assets/video.mp4')
     ret = True
     while(ret):
         ret, frame = vid.read()
-        label, image, cropped, Found = detectShape(frame)
+        image, Found = detectShape(frame)
         if Found:
-            print(label, Found)
-            out1.write(image)
-            out2.write(cropped)
-        else:
-            out1.write(frame)
-        
+            print("dead fish detected")
+        out.write(image)
     vid.release()
-    out1.release()
-    out2.release()
-    cv2.destroyAllWindows()
-
+    out.release()
     free_model()
