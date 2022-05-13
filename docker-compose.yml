@@ -1,7 +1,7 @@
 services:
   test:
     build: .
-    command: nvidia-smi
+    command: python3 /darknet/assets/darknet.py
     deploy:
       resources:
         reservations:
@@ -9,3 +9,5 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+    volumes:
+      - ./assets:/darknet/assets

@@ -6,13 +6,15 @@ RUN apt-get update -y
 
 RUN apt-get upgrade -y
 
-RUN apt-get install -y git make dpkg libopencv-dev g++ pkg-config
+RUN apt-get install -y git make dpkg libopencv-dev g++ pkg-config python3-pip
 
-RUN git clone https://github.com/AlexeyAB/darknet.git
+RUN git clone https://github.com/RobEn-AAST/darknet.git
 
 WORKDIR /darknet
 
 RUN rm Makefile
+
+RUN pip3 install opencv-python
 
 COPY Makefile Makefile
 

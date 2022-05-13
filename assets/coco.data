@@ -1,0 +1,4 @@
+classes= 1
+train  = /darknet/build/darknet/x64/data/train.txt
+names = /darknet/assets/coco.names
+backup = /darknet/build/darknet/x64/backup
